@@ -14,6 +14,10 @@ function App() {
         { id: v1(), title: "Rest API", isDone: false },
         { id: v1(), title: "GraphQL", isDone: false },
     ]);
+    const changeCheckBox = (idTasks:string,value: boolean) => {
+        console.log(idTasks, value)
+        setTasks(tasks.map(el=>el.id===idTasks ? {...el,isDone: value} : el))
+    }
 
     function removeTask(id: string) {
         let filteredTasks = tasks.filter(t => t.id != id);
@@ -46,6 +50,7 @@ function App() {
     return (
         <div className="App">
             <Todolist title="What to learn"
+                      changeCheckBox={changeCheckBox}
                       tasks={tasksForTodolist}
                       removeTask={removeTask}
                       changeFilter={changeFilter}
