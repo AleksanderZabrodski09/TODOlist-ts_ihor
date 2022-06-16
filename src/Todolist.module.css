@@ -8,3 +8,6 @@
 .activeFilter {
     background-color: aquamarine;
 }
+.isDone {
+    opacity: 0.5;
+}
