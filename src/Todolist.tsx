@@ -15,19 +15,19 @@ type PropsType = {
   changeFilter: (value: FilterValuesType) => void
   addTask: (title: string) => void
   changeCheckBox: (id: string, value: boolean) => void
+  filter: FilterValuesType
 }
 
 export function Todolist(props: PropsType) {
 
-  const [error, setError] =useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
   let [title, setTitle] = useState("")
 
   const addTask = () => {
     if (title.trim() !== '') {
       props.addTask(title.trim());
       setTitle("");
-    }
-    else {
+    } else {
       setError('Title is required')
     }
   }
@@ -56,14 +56,14 @@ export function Todolist(props: PropsType) {
   return <div>
     <h3>{props.title}</h3>
     <div>
-      <input className={error ? s.error :''}
+      <input className={error ? s.error : ''}
              value={title}
              onChange={onChangeHandler}
              onKeyPress={onKeyPressHandler}
       />
       <button onClick={addTask}>+</button>
     </div>
-    {error &&<div className={s.errorMessage}>{error}</div>}
+    {error && <div className={s.errorMessage}>{error}</div>}
     <ul>
       {props.tasks.map(t => {
 
@@ -80,9 +80,11 @@ export function Todolist(props: PropsType) {
       }
     </ul>
     <div>
-      <button onClick={onAllClickHandler}>All</button>
-      <button onClick={onActiveClickHandler}>Active</button>
-      <button onClick={onCompletedClickHandler}>Completed</button>
+      <button className={props.filter === 'all' ? s.activeFilter : ''} onClick={onAllClickHandler}>All</button>
+      <button className={props.filter === 'active' ? s.activeFilter : ''} onClick={onActiveClickHandler}>Active</button>
+      <button className={props.filter === 'completed' ? s.activeFilter : ''}
+              onClick={onCompletedClickHandler}>Completed
+      </button>
     </div>
   </div>
 }

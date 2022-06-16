@@ -49,6 +49,7 @@ function App() {
   return (
     <div className="App">
       <Todolist title="What to learn"
+                filter={filter}
                 changeCheckBox={changeCheckBox}
                 tasks={tasksForTodolist}
                 removeTask={removeTask}
