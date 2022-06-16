@@ -15,7 +15,7 @@ function App() {
         { id: v1(), title: "GraphQL", isDone: false },
     ]);
     const changeCheckBox = (idTasks:string,value: boolean) => {
-        console.log(idTasks, value)
+        // console.log(idTasks, value)
         setTasks(tasks.map(el=>el.id===idTasks ? {...el,isDone: value} : el))
     }
 

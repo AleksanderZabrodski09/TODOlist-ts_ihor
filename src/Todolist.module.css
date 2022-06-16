@@ -11,3 +11,6 @@
 .isDone {
     opacity: 0.5;
 }
+button{
+    cursor: pointer;
+}
