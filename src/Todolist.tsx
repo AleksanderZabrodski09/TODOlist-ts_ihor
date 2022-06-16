@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
+import s from './Todolist.module.css';
 
 type TaskType = {
   id: string
@@ -18,6 +19,7 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
+  const [error, setError] =useState<string | null>(null)
   let [title, setTitle] = useState("")
 
   const addTask = () => {
@@ -25,14 +27,19 @@ export function Todolist(props: PropsType) {
       props.addTask(title.trim());
       setTitle("");
     }
+    else {
+      setError('Title is required')
+    }
   }
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (
+    e: ChangeEvent<HTMLInputElement>) => {
+    setError(null)
     setTitle(e.currentTarget.value)
   }
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.charCode === 13) {
+    if (e.key === "Enter") {
       addTask();
     }
   }
@@ -40,9 +47,7 @@ export function Todolist(props: PropsType) {
   const onAllClickHandler = () => props.changeFilter("all");
   const onActiveClickHandler = () => props.changeFilter("active");
   const onCompletedClickHandler = () => props.changeFilter("completed");
-  // const changeCheckBoxHandler = (tID, e:ChangeEvent<HTMLInputElement>)=> {
-  //   props.changeCheckBox(tID, e.currentTarget.checked)
-  // }
+
   const changeCheckBoxHandler = (tID: string, eValue: boolean) => {
     props.changeCheckBox(tID, eValue)
   }
@@ -51,12 +56,14 @@ export function Todolist(props: PropsType) {
   return <div>
     <h3>{props.title}</h3>
     <div>
-      <input value={title}
+      <input className={error ? s.error :''}
+             value={title}
              onChange={onChangeHandler}
              onKeyPress={onKeyPressHandler}
       />
       <button onClick={addTask}>+</button>
     </div>
+    {error &&<div className={s.errorMessage}>{error}</div>}
     <ul>
       {props.tasks.map(t => {
 
