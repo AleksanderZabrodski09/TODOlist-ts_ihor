@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
+import {Input} from './componenets/input';
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodoListPropsType = {
@@ -32,19 +33,29 @@ function App() {
     // setTasks(filteredTasks);
   }
 
-  const removeTodoList=(todoListID: string)=>{
-    setTodoLists(todoLists.filter(tl=>tl.todoListID!==todoListID))
+  const removeTodoList = (todoListID: string) => {
+    setTodoLists(todoLists.filter(tl => tl.todoListID !== todoListID))
+    delete tasks[todoListID]
+    // setTasks({...tasks});
   }
 
   function addTask(todoListID: string, title: string) {
     let newTask = {id: v1(), title: title, isDone: false};
     setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
-    delete tasks[todoListID]
+
 
     // let newTask = {id: v1(), title: title, isDone: false};
     // tasks[todoListID] = [newTask, ...tasks[todoListID]];
     // setTasks({...tasks});
+  }
 
+  const addTodoList = (title: string) => {
+
+    let newTodoListID = v1()
+    let newTodoList:TodoListPropsType = {todoListID: newTodoListID, title: title, filter: 'all'};
+    setTodoLists([newTodoList, ...todoLists]);
+    // setTasks({...tasks, [todoListID]: []})
+    setTasks({...tasks, [newTodoListID]: []})
   }
 
 
@@ -64,7 +75,7 @@ function App() {
 
   const [todoLists, setTodoLists] = useState<TodoListPropsType[]>([
     {todoListID: todoListID1, title: "What to learn", filter: 'all'},
-    {todoListID: todoListID2, title: "What to buy", filter: 'all'},
+    {todoListID: todoListID2, title: "What to buy", filter: 'all'}
   ])
   let [tasks, setTasks] = useState<TasksPropsType>({
     [todoListID1]: [
@@ -82,6 +93,7 @@ function App() {
   });
   return (
     <div className="App">
+      <Input callBack={addTodoList}/>
       {
         todoLists.map(tl => {
           let tasksForTodolist = tasks[tl.todoListID];
