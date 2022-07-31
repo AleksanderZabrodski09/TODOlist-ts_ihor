@@ -52,7 +52,7 @@ function App() {
   const addTodoList = (title: string) => {
 
     let newTodoListID = v1()
-    let newTodoList:TodoListPropsType = {todoListID: newTodoListID, title: title, filter: 'all'};
+    let newTodoList: TodoListPropsType = {todoListID: newTodoListID, title: title, filter: 'all'};
     setTodoLists([newTodoList, ...todoLists]);
     // setTasks({...tasks, [todoListID]: []})
     setTasks({...tasks, [newTodoListID]: []})
@@ -91,6 +91,17 @@ function App() {
       {id: v1(), title: "pen", isDone: true}
     ]
   });
+
+  const editTask = (todoListID: string, idTasks: string, newTitle: string) => {
+    setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === idTasks ? {...el, title: newTitle} : el)})
+  }
+
+  const editTodoTitle=(todoListID: string, newTitle: string)=>{
+    setTodoLists(todoLists.map(tl=>tl.todoListID===todoListID ? {...tl, title: newTitle} :tl))
+
+  }
+
+
   return (
     <div className="App">
       <Input callBack={addTodoList}/>
@@ -114,7 +125,10 @@ function App() {
             removeTask={removeTask}
             removeTodoList={removeTodoList}
             changeFilter={changeFilter}
-            addTask={addTask}/>
+            addTask={addTask}
+            editTask={editTask}
+            editTodoTitle={editTodoTitle}
+          />
         })
       }
 
