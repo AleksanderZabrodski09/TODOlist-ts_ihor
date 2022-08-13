@@ -45,17 +45,25 @@ function App() {
         setFilter(value);
     }
 
+    let todolistId1 = v1();
+    let todolistId2 = v1();
+
+    let [todolist, setTodolist] = useState([
+        { id: todolistId1, title: "What to learn", filter: 'all' },
+        { id: todolistId2, title: "What to buy", filter: 'all' },
+
+    ])
 
 
     return (
         <div className="App">
-            <Todolist title="What to learn"
+            <Todolist title={tl.id}
                       changeCheckBox={changeCheckBox}
                       tasks={tasksForTodolist}
                       removeTask={removeTask}
                       changeFilter={changeFilter}
                       addTask={addTask}
-                      filter={filter}
+                      filter={tl.filter}
             />
         </div>
     );
