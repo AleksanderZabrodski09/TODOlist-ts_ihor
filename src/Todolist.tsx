@@ -3,7 +3,7 @@ import {FilterValuesType} from './App';
 import s from './Todolist.module.css';
 import {CheckBox} from './components/CheckBox';
 
-type TaskType = {
+export type TaskType = {
   id: string
   title: string
   isDone: boolean
@@ -13,7 +13,7 @@ type PropsType = {
   todolistId:string
   title: string
   tasks: Array<TaskType>
-  removeTask: (taskId: string) => void
+  removeTask: (todolistId: string,taskId: string) => void
   changeFilter: (todolistId: string, value: FilterValuesType) => void
   addTask: (title: string) => void
   changeCheckBox: (id: string, value: boolean) => void
@@ -54,8 +54,8 @@ export function Todolist(props: PropsType) {
   const changeCheckBoxHandler = (tID: string, eValue: boolean)=>{
 props.changeCheckBox(tID, eValue)
   }
-  const onClickHandler = (tID: string) => {
-    props.removeTask(tID)
+  const onClickHandler = (tlID: string,tID: string) => {
+    props.removeTask(tlID,tID)
   }
 
   return (
@@ -82,7 +82,7 @@ props.changeCheckBox(tID, eValue)
                   {/*       onChange={(e) => changeCheckBoxHandler(t.id, e.currentTarget.checked)}/>*/}
                   <CheckBox checked={t.isDone} callback={(eValue)=>changeCheckBoxHandler(t.id, eValue)}/>
                   <span>{t.title}</span>
-                  <button onClick={() => onClickHandler(t.id)}>x</button>
+                  <button onClick={() => onClickHandler(props.todolistId,t.id)}>x</button>
                 </li>)
             }
           )}
