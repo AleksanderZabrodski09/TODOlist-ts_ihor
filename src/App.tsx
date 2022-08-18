@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
+import {InputForm} from './components/InputForm';
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistType = {
@@ -16,25 +17,32 @@ export type TasksPropsType = {
 
 function App() {
 
-  const changeCheckBox = (todolistId: string,idTasks: string, value: boolean) => {
-    setTasks({...tasks,[todolistId]:tasks[todolistId].map(el=>el.id===idTasks?{...el, isDone: value}:el) })
+  const changeCheckBox = (todolistId: string, idTasks: string, value: boolean) => {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].map(el => el.id === idTasks ? {...el, isDone: value} : el)})
   }
 
   function removeTask(todolistId: string, id: string) {
     setTasks({...tasks, [todolistId]: tasks[todolistId].filter(el => el.id !== id)})
   }
-  const removeTodolist=(todolistId: string)=>{
-    setTodolists(todolists.filter(tl=>tl.todolistId!==todolistId))
-    console.log()
+
+  const removeTodolist = (todolistId: string) => {
+    setTodolists(todolists.filter(tl => tl.todolistId !== todolistId))
+    delete tasks[todolistId]
+    setTasks({...tasks})
   }
+
 
   function addTask(todolistId: string, title: string) {
     let newTasks = {id: v1(), title: title, isDone: false};
-    setTasks({...tasks, [todolistId]:[newTasks, ...tasks[todolistId]]});
+    setTasks({...tasks, [todolistId]: [newTasks, ...tasks[todolistId]]});
   }
 
-
-
+  function addTodolist(title: string) {
+    let newTodolistId = v1();
+    let newTodolist:TodolistType = {todolistId: newTodolistId, title: title, filter: 'all'};
+    setTodolists([newTodolist, ...todolists])
+    setTasks({...tasks, [newTodolistId]: []})
+  }
 
 
   function changeFilter(todolistId: string, value: FilterValuesType) {
@@ -49,6 +57,7 @@ function App() {
     {todolistId: todolistId2, title: "What to buy", filter: 'all'},
 
   ])
+
   let [tasks, setTasks] = useState<TasksPropsType>({
     [todolistId1]: [
       {id: v1(), title: "HTML&CSS", isDone: true},
@@ -64,6 +73,7 @@ function App() {
 
   return (
     <div className="App">
+      <InputForm addInputForm={addTodolist}/>
       {
         todolists.map(tl => {
 
@@ -78,6 +88,7 @@ function App() {
 
 
           return (
+
             <Todolist key={tl.todolistId}
                       todolistId={tl.todolistId}
                       title={tl.title}
@@ -89,6 +100,7 @@ function App() {
                       changeFilter={changeFilter}
                       addTask={addTask}
             />
+
           )
         })
       }
