@@ -10,28 +10,32 @@ export type TodolistType = {
   filter: FilterValuesType
 }
 
-export type TasksPropsType={
-  [key:string]:TaskType[];
+export type TasksPropsType = {
+  [key: string]: TaskType[];
 }
+
 function App() {
 
-  const changeCheckBox = (idTasks: string, value: boolean) => {
+  const changeCheckBox = (todolistId: string,idTasks: string, value: boolean) => {
+    setTasks({...tasks,[todolistId]:tasks[todolistId].map(el=>el.id===idTasks?{...el, isDone: value}:el) })
     // setTasks(tasks.map(el => el.id === idTasks ? {...el, isDone: value} : el))
   }
 
-  function removeTask(todolistId: string,id: string) {
-    setTasks({...tasks, [todolistId]:tasks[todolistId].filter(el=>el.id!==id)})
+  function removeTask(todolistId: string, id: string) {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].filter(el => el.id !== id)})
   }
 
-  function addTask(title: string) {
-    // let task = {id: v1(), title: title, isDone: false};
-    // let newTasks = [task, ...tasks];
-    // setTasks(newTasks);
+  function addTask(todolistId: string, title: string) {
+    let newTasks = {id: v1(), title: title, isDone: false};
+    setTasks({...tasks, [todolistId]:[newTasks, ...tasks[todolistId]]});
   }
+
+
+
 
 
   function changeFilter(todolistId: string, value: FilterValuesType) {
-    setTodolists(todolists.map(tl => tl.todolistId === todolistId ? {...tl,filter: value} : tl))
+    setTodolists(todolists.map(tl => tl.todolistId === todolistId ? {...tl, filter: value} : tl))
   }
 
   let todolistId1 = v1();
@@ -43,16 +47,16 @@ function App() {
 
   ])
   let [tasks, setTasks] = useState<TasksPropsType>({
-    [todolistId1]:[
-    {id: v1(), title: "HTML&CSS", isDone: true},
-    {id: v1(), title: "JS", isDone: true},
-    {id: v1(), title: "ReactJS", isDone: false},
-    {id: v1(), title: "Rest API", isDone: false},
-    {id: v1(), title: "GraphQL", isDone: false}],
-  [todolistId2]:[
-    {id: v1(), title: "car", isDone: true},
-    {id: v1(), title: "house", isDone: true},
-    {id: v1(), title: "business", isDone: false}]
+    [todolistId1]: [
+      {id: v1(), title: "HTML&CSS", isDone: true},
+      {id: v1(), title: "JS", isDone: true},
+      {id: v1(), title: "ReactJS", isDone: false},
+      {id: v1(), title: "Rest API", isDone: false},
+      {id: v1(), title: "GraphQL", isDone: false}],
+    [todolistId2]: [
+      {id: v1(), title: "car", isDone: true},
+      {id: v1(), title: "house", isDone: true},
+      {id: v1(), title: "business", isDone: false}]
   });
 
   return (
