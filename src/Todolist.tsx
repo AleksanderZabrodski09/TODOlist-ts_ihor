@@ -14,6 +14,7 @@ type PropsType = {
   title: string
   tasks: Array<TaskType>
   removeTask: (todolistId: string, taskId: string) => void
+  removeTodolist:(todolistId: string)=>void
   changeFilter: (todolistId: string, value: FilterValuesType) => void
   addTask: (todolistId: string, title: string) => void
   changeCheckBox: (todolistId: string, id: string, value: boolean) => void
@@ -47,9 +48,7 @@ export function Todolist(props: PropsType) {
   const onAllClickHandler = () => props.changeFilter(props.todolistId, "all");
   const onActiveClickHandler = () => props.changeFilter(props.todolistId, "active");
   const onCompletedClickHandler = () => props.changeFilter(props.todolistId, "completed");
-  // const changeCheckBoxHandler = (tID: string, eValue: boolean) => {
-  //   props.changeCheckBox(tID, eValue)
-  // }
+
   const changeCheckBoxHandler = (tlID: string, tID: string, eValue: boolean) => {
     props.changeCheckBox(tlID, tID, eValue)
   }
@@ -57,9 +56,15 @@ export function Todolist(props: PropsType) {
     props.removeTask(tlID, tID)
   }
 
+  const removeTodolistHandler=()=>props.removeTodolist(props.todolistId)
+
+
   return (
     <div>
-      <h3>{props.title}</h3>
+      <h3>
+        {props.title}
+        <button onClick={removeTodolistHandler}>X</button>
+      </h3>
       <div>
         <input
           className={error ? s.error : ''}
@@ -77,9 +82,10 @@ export function Todolist(props: PropsType) {
 
               return (
                 <li key={t.id} className={t.isDone === true ? s.isDone : ''}>
-                  {/*<input type="checkbox" checked={t.isDone}*/}
-                  {/*       onChange={(e) => changeCheckBoxHandler(t.id, e.currentTarget.checked)}/>*/}
-                  <CheckBox checked={t.isDone} callback={(eValue) => changeCheckBoxHandler(props.todolistId,t.id, eValue)}/>
+                  <CheckBox
+                    checked={t.isDone}
+                    callback={(eValue) => changeCheckBoxHandler(props.todolistId,t.id, eValue)}
+                  />
                   <span>{t.title}</span>
                   <button onClick={() => onClickHandler(props.todolistId, t.id)}>x</button>
                 </li>)
