@@ -1,4 +1,5 @@
 import React, {ChangeEvent} from 'react';
+import {Checkbox} from '@mui/material';
 
 type CheckBoxType = {
   checked: boolean
@@ -13,11 +14,16 @@ export const CheckBox = (props:CheckBoxType) => {
   }
 
   return (
-    <input
-      type="checkbox"
-      checked={props.checked}
-      onChange={onChangeHandler}
+  //   <input
+  //     type="checkbox"
+  //     checked={props.checked}
+  //     onChange={onChangeHandler}
+  // />
 
+  <Checkbox
+size='small'
+            checked={props.checked}
+            onChange={onChangeHandler}
   />
   );
 };

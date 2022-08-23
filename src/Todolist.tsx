@@ -1,9 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React from 'react';
 import {FilterValuesType} from './App';
 import s from './Todolist.module.css';
 import {CheckBox} from './componenets/CheckBox';
 import {Input} from './componenets/input';
 import {EditableSpan} from './componenets/EditableSpan';
+import {Button, IconButton} from '@mui/material';
+import {Delete} from '@mui/icons-material';
 
 export type TaskType = {
   id: string
@@ -55,7 +57,11 @@ export function Todolist(props: PropsType) {
     <h3>
       {/*{props.title}*/}
       <EditableSpan title={props.title} callBack={editTodoTitleHandler}/>
-      <button onClick={removeTodoListHandler}>X</button>
+
+      <IconButton aria-label="delete" size="large" onClick={removeTodoListHandler}>
+        <Delete fontSize="inherit" />
+      </IconButton>
+      {/*<button onClick={removeTodoListHandler}>X</button>*/}
     </h3>
     <Input
       callBack={addTaskHandler}/>
@@ -65,11 +71,7 @@ export function Todolist(props: PropsType) {
 
         return (
           <li key={t.id} className={t.isDone === true ? s.isDone : ''}>
-            {/*<input*/}
 
-            {/*  type="checkbox"*/}
-            {/*  checked={t.isDone}*/}
-            {/*  onChange={(e) => changeCheckBoxHandler(t.id, e.currentTarget.checked)}/>*/}
             <CheckBox
               checked={t.isDone}
               callBack={(eValue) => changeCheckBoxHandler(props.todoListID, t.id, eValue)}/>
@@ -78,18 +80,29 @@ export function Todolist(props: PropsType) {
               callBack={(newTitle) => editTaskHandler(t.id, newTitle)}
             />
             {/*<span>{t.title}</span>*/}
-            <button onClick={() => onClickRemoveHandler(t.id, props.todoListID)}>x</button>
+            <IconButton aria-label="delete" size="small" onClick={() => onClickRemoveHandler(t.id, props.todoListID)}>
+              <Delete fontSize="inherit" />
+            </IconButton>
+            {/*<button onClick={() => onClickRemoveHandler(t.id, props.todoListID)}>x</button>*/}
           </li>
         )
       })
       }
     </ul>
     <div>
-      <button className={props.filter === 'all' ? s.activeFilter : ''} onClick={onAllClickHandler}>All</button>
-      <button className={props.filter === 'active' ? s.activeFilter : ''} onClick={onActiveClickHandler}>Active</button>
-      <button className={props.filter === 'completed' ? s.activeFilter : ''}
-              onClick={onCompletedClickHandler}>Completed
-      </button>
+      <Button
+              variant={props.filter === 'all' ? 'outlined' : 'text'}
+              onClick={onAllClickHandler} color='success'>All</Button>
+      <Button
+              variant={props.filter === 'active' ? 'outlined' : 'text'}
+              onClick={onActiveClickHandler} color='secondary'>Active</Button>
+      <Button
+              variant={props.filter === 'completed' ? 'outlined' : 'text'}
+              onClick={onCompletedClickHandler} color='info'>Completed</Button>
+      {/*<Button className={props.filter === 'active' ? s.activeFilter : ''} onClick={onActiveClickHandler}>Active</Button>*/}
+      {/*<Button className={props.filter === 'completed' ? s.activeFilter : ''}*/}
+      {/*        onClick={onCompletedClickHandler}>Completed*/}
+      {/*</Button>*/}
     </div>
   </div>
 }
