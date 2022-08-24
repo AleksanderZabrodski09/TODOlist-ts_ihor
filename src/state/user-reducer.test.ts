@@ -1,7 +1,7 @@
 import {userReducer} from './user-reducer';
 
 
-test('user reducer should increment only age', ()=>{
+test.skip('user reducer should increment only age', ()=>{
   const startState={age:20, childrenCount:2, name: 'Dimych'}
 
   const endState= userReducer(startState, {type:'INCREMENT-AGE'})
@@ -11,7 +11,7 @@ test('user reducer should increment only age', ()=>{
 
 })
 
-test('user reducer should increment only childrenCount', ()=>{
+test.skip('user reducer should increment only childrenCount', ()=>{
   const startState={age:20, childrenCount:2, name: 'Dimych'}
 
   const endState= userReducer(startState,{type:'INCREMENT-CHILDREN-COUNT'})
@@ -21,7 +21,7 @@ test('user reducer should increment only childrenCount', ()=>{
 
 })
 
-test('user reducer should change name of user', ()=>{
+test.skip('user reducer should change name of user', ()=>{
   const startState={age:20, childrenCount:2, name: 'Dimych'}
 
   const newName='Andrew'
