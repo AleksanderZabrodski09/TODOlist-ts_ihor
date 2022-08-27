@@ -2,12 +2,7 @@ import {FilterValuesType, TodoListPropsType} from '../App';
 import {v1} from 'uuid';
 
 
-// type ActionType = {
-//   type: string
-//   [key: string]: any
-// }
-
-export const todoListsReducer = (state: Array<TodoListPropsType>, action: todoListsReducerType) => {
+export const todoListsReducer = (state: Array<TodoListPropsType>, action: todoListsReducerType):Array<TodoListPropsType> => {
   switch (action.type) {
     case 'REMOVE-TODOLIST': {
       return state.filter(tl => tl.todoListID !== action.payload.todoListID)
@@ -23,6 +18,7 @@ export const todoListsReducer = (state: Array<TodoListPropsType>, action: todoLi
     case 'CHANGE-TODOLIST-FILTER':{
       return state.map(tl=>tl.todoListID===action.payload.todoListID? {...tl, filter: action.payload.newFilter}:tl)
     }
+
     default:
       // throw new Error('I don\'t understand this type')
       return state
@@ -40,12 +36,12 @@ export const todoListsReducer = (state: Array<TodoListPropsType>, action: todoLi
 //   }
 // }
 
-type todoListsReducerType = removeTodoListACType | addTodoListACType|changeTodoListTitleACType | changeTodoListFilterACType
+export type todoListsReducerType = removeTodoListACType | addTodoListACType|changeTodoListTitleACType | changeTodoListFilterACType
 
-type removeTodoListACType = ReturnType<typeof removeTodoListAC>
-type addTodoListACType = ReturnType<typeof addTodoListAC>
-type changeTodoListTitleACType=ReturnType<typeof changeTodoListTitleAC>
-type changeTodoListFilterACType=ReturnType<typeof changeTodoListFilterAC>
+export type removeTodoListACType = ReturnType<typeof removeTodoListAC>
+export type addTodoListACType = ReturnType<typeof addTodoListAC>
+export type changeTodoListTitleACType=ReturnType<typeof changeTodoListTitleAC>
+export type changeTodoListFilterACType=ReturnType<typeof changeTodoListFilterAC>
 
 export const removeTodoListAC = (todoListID: string) => {
   return {

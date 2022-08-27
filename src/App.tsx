@@ -13,48 +13,53 @@ export type TodoListPropsType = {
   filter: FilterValuesType
 }
 
-type TasksPropsType = {
+export type TasksPropsType = {
   [key: string]: Array<TaskType>
 }
 
 function App() {
 
-
-  const changeCheckBox = (todoListID: string, idTasks: string, value: boolean) => {
-    setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === idTasks ? {...el, isDone: value} : el)})
-
-  }
-
   function removeTask(todoListID: string, TaskId: string) {
     setTasks({...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== TaskId)})
 
   }
+  function addTask(todoListID: string, title: string) {
+    let newTask = {id: v1(), title: title, isDone: false};
+    setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
+
+  }
+  const changeCheckBox = (todoListID: string, idTasks: string, value: boolean) => {
+    setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === idTasks ? {...el, isDone: value} : el)})
+
+  }
+  const editTask = (todoListID: string, idTasks: string, newTitle: string) => {
+    setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === idTasks ? {...el, title: newTitle} : el)})
+  }
+
 
   const removeTodoList = (todoListID: string) => {
     setTodoLists(todoLists.filter(tl => tl.todoListID !== todoListID))
     delete tasks[todoListID]
     // setTasks({...tasks});
   }
-
-  function addTask(todoListID: string, title: string) {
-    let newTask = {id: v1(), title: title, isDone: false};
-    setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
-
-  }
-
   const addTodoList = (title: string) => {
-
     let newTodoListID = v1()
     let newTodoList: TodoListPropsType = {todoListID: newTodoListID, title: title, filter: 'all'};
     setTodoLists([newTodoList, ...todoLists]);
     setTasks({...tasks, [newTodoListID]: []})
   }
-
-
   function changeFilter(todoListID: string, value: FilterValuesType) {
     setTodoLists(todoLists.map(tl => tl.todoListID === todoListID ? {...tl, filter: value} : tl))
 
   }
+  const editTodoTitle = (todoListID: string, newTitle: string) => {
+    setTodoLists(todoLists.map(tl => tl.todoListID === todoListID ? {...tl, title: newTitle} : tl))
+
+  }
+
+
+
+
 
   let todoListID1 = v1();
   let todoListID2 = v1();
@@ -78,14 +83,9 @@ function App() {
     ]
   });
 
-  const editTask = (todoListID: string, idTasks: string, newTitle: string) => {
-    setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === idTasks ? {...el, title: newTitle} : el)})
-  }
 
-  const editTodoTitle = (todoListID: string, newTitle: string) => {
-    setTodoLists(todoLists.map(tl => tl.todoListID === todoListID ? {...tl, title: newTitle} : tl))
 
-  }
+
 
 
   return (
