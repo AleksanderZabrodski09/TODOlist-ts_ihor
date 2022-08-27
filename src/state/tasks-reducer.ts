@@ -1,6 +1,6 @@
 import {TasksPropsType} from '../App';
 import {v1} from 'uuid';
-import {addTodoListACType} from './todoLists-reducer';
+import {addTodoListACType, removeTodoListACType} from './todoLists-reducer';
 
 
 export const tasksReducer = (state: TasksPropsType, action: tasksReducerType): TasksPropsType => {
@@ -28,11 +28,21 @@ export const tasksReducer = (state: TasksPropsType, action: tasksReducerType): T
       }
     }
     case 'ADD-TODOLIST':{
-      let newTodoListID=v1();
+      // let newTodoListID=v1();
+      let newTodoListID=action.payload.todoListID;
       return {...state,
         [newTodoListID]:[]
       }
     }
+    case 'REMOVE-TODOLIST':{
+      delete state[action.payload.todoListID]
+      return {...state}
+    }
+    // 2 method---
+    // case 'REMOVE-TODOLIST':{
+    //   let {[action.payload.todoListID]:[],...rest} = {...state}
+    //   return rest
+    // }
     default:
       // throw new Error('I don\'t understand this type')
       return state
@@ -40,7 +50,7 @@ export const tasksReducer = (state: TasksPropsType, action: tasksReducerType): T
 }
 
 
-type tasksReducerType = removeTaskACType | addTaskACType | changeCheckBoxACType|editTaskACType|addTodoListACType
+type tasksReducerType = removeTaskACType | addTaskACType | changeCheckBoxACType|editTaskACType|addTodoListACType|removeTodoListACType
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
 type addTaskACType = ReturnType<typeof addTaskAC>
