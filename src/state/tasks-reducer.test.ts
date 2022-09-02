@@ -2,8 +2,11 @@ import {TasksPropsType} from '../App';
 import {addTaskAC, changeCheckBoxAC, editTaskAC, removeTaskAC, tasksReducer} from './tasks-reducer';
 import {addTodoListAC, removeTodoListAC} from './todoLists-reducer';
 
-test('correct task should be removed', () => {
-  const startState: TasksPropsType = {
+
+let startState: TasksPropsType
+
+beforeEach(()=>{
+  startState = {
     'todoListID1': [
       {id: '1', title: 'CSS', isDone: false},
       {id: '2', title: 'JS', isDone: true},
@@ -15,6 +18,11 @@ test('correct task should be removed', () => {
       {id: '3', title: 'tea', isDone: false}
     ]
   }
+})
+
+
+test('correct task should be removed', () => {
+
 
   const endState = tasksReducer(startState, removeTaskAC('todoListID2', '2'))
 
@@ -33,18 +41,7 @@ test('correct task should be removed', () => {
 
 
 test('correct task should be added', () => {
-  const startState: TasksPropsType = {
-    'todoListID1': [
-      {id: '1', title: 'CSS', isDone: false},
-      {id: '2', title: 'JS', isDone: true},
-      {id: '3', title: 'React', isDone: false}
-    ],
-    'todoListID2': [
-      {id: '1', title: 'bread', isDone: false},
-      {id: '2', title: 'milk', isDone: true},
-      {id: '3', title: 'tea', isDone: false}
-    ]
-  }
+
 
   // let newTaskTitle = {id: '4', title: 'coffee', isDone: false}
 
@@ -60,18 +57,7 @@ test('correct task should be added', () => {
 })
 
 test('status of specified task should be changed', () => {
-  const startState = {
-    'todoListID1': [
-      {id: '1', title: 'CSS', isDone: false},
-      {id: '2', title: 'JS', isDone: true},
-      {id: '3', title: 'React', isDone: false}
-    ],
-    'todoListID2': [
-      {id: '1', title: 'bread', isDone: false},
-      {id: '2', title: 'milk', isDone: true},
-      {id: '3', title: 'tea', isDone: false}
-    ]
-  }
+
 
   const endState = tasksReducer(startState, changeCheckBoxAC('todoListID2', '2', false))
 
@@ -81,18 +67,7 @@ test('status of specified task should be changed', () => {
 })
 
 test('correct task should be its name', () => {
-  const startState = {
-    'todoListID1': [
-      {id: '1', title: 'CSS', isDone: false},
-      {id: '2', title: 'JS', isDone: true},
-      {id: '3', title: 'React', isDone: false}
-    ],
-    'todoListID2': [
-      {id: '1', title: 'bread', isDone: false},
-      {id: '2', title: 'milk', isDone: true},
-      {id: '3', title: 'tea', isDone: false}
-    ]
-  }
+
 
   const endState = tasksReducer(startState, editTaskAC('todoListID2', '3', 'coffee'))
 
@@ -102,18 +77,7 @@ test('correct task should be its name', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-  const startState = {
-    'todoListID1': [
-      {id: '1', title: 'CSS', isDone: false},
-      {id: '2', title: 'JS', isDone: true},
-      {id: '3', title: 'React', isDone: false}
-    ],
-    'todoListID2': [
-      {id: '1', title: 'bread', isDone: false},
-      {id: '2', title: 'milk', isDone: true},
-      {id: '3', title: 'tea', isDone: false}
-    ]
-  }
+
 
   // const action = addTodoListAC("new todolist");
 
@@ -132,27 +96,14 @@ test('new array should be added when new todolist is added', () => {
 
 
 test('property with todolistId should be deleted', () => {
-  const startState: TasksPropsType = {
-    "todolistID1": [
-      { id: "1", title: "CSS", isDone: false },
-      { id: "2", title: "JS", isDone: true },
-      { id: "3", title: "React", isDone: false }
-    ],
-    "todolistID2": [
-      { id: "1", title: "bread", isDone: false },
-      { id: "2", title: "milk", isDone: true },
-      { id: "3", title: "tea", isDone: false }
-    ]
-  };
-
-  const action = removeTodoListAC("todolistID2");
-
-  const endState = tasksReducer(startState, action)
-
+  console.log('before', startState)
+  const endState = tasksReducer(startState, removeTodoListAC("todoListID2"))
+  console.log('after', endState)
 
   const keys = Object.keys(endState);
 
   expect(keys.length).toBe(1);
-  expect(endState["todolistID2"]).not.toBeDefined();
+  expect(endState["todoListID2"]).not.toBeDefined();
 });
+
 
