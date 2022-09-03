@@ -1,8 +1,10 @@
-import {FilterValuesType, TodoListPropsType} from '../App';
+import {FilterValuesType, TasksPropsType, TodoListPropsType} from '../App';
 import {v1} from 'uuid';
 
+const initialState: Array<TodoListPropsType> =[]
 
-export const todoListsReducer = (state: Array<TodoListPropsType>, action: todoListsReducerType):Array<TodoListPropsType> => {
+
+export const todoListsReducer = (state=initialState, action: todoListsReducerType):Array<TodoListPropsType> => {
   switch (action.type) {
     case 'REMOVE-TODOLIST': {
       return state.filter(tl => tl.todoListID !== action.payload.todoListID)
@@ -52,6 +54,7 @@ export const removeTodoListAC = (todoListID: string) => {
 }
 
 export const addTodoListAC = (newTodolistTitle: string) => {
+    debugger
   return {
     type: 'ADD-TODOLIST',
     payload: {newTodolistTitle, todoListID:v1()}
