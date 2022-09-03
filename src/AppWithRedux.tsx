@@ -13,6 +13,7 @@ import {
 import {addTaskAC, changeCheckBoxAC, editTaskAC, removeTaskAC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
+import {Todolist1} from './Todolist1';
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodoListPropsType = {
@@ -98,29 +99,29 @@ const dispatch=useDispatch()
         <Grid container spacing={3}>
           {
             todoLists.map(tl => {
-              let tasksForTodolist = tasks[tl.todoListID];
-
-              if (tl.filter === "active") {
-                tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false);
-              }
-              if (tl.filter === "completed") {
-                tasksForTodolist = tasksForTodolist.filter(t => t.isDone === true);
-              }
-              return <Grid item>
+              // let tasksForTodolist = tasks[tl.todoListID];
+              //
+              // if (tl.filter === "active") {
+              //   tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false);
+              // }
+              // if (tl.filter === "completed") {
+              //   tasksForTodolist = tasksForTodolist.filter(t => t.isDone === true);
+              // }
+              return <Grid item key={tl.todoListID}>
                 <Paper style={{padding: '10px'}}>
-                  <Todolist
-                    todoListID={tl.todoListID}
-                    key={tl.todoListID}
-                    title={tl.title}
-                    filter={tl.filter}
-                    changeCheckBox={changeCheckBox}
-                    tasks={tasksForTodolist}
-                    removeTask={removeTask}
-                    removeTodoList={removeTodoList}
-                    changeFilter={changeFilter}
-                    addTask={addTask}
-                    editTask={editTask}
-                    editTodoTitle={editTodoTitle}
+                  <Todolist1
+                    todoList={tl}
+                    // todoListID={tl.todoListID}
+                    // title={tl.title}
+                    // filter={tl.filter}
+                    // changeCheckBox={changeCheckBox}
+                    // tasks={tasksForTodolist}
+                    // removeTask={removeTask}
+                    // removeTodoList={removeTodoList}
+                    // changeFilter={changeFilter}
+                    // addTask={addTask}
+                    // editTask={editTask}
+                    // editTodoTitle={editTodoTitle}
                   />
                 </Paper>
               </Grid>

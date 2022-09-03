@@ -26,7 +26,7 @@ type PropsType = {
 
 export function Todolist1({todoList}: PropsType) {
   const {todoListID, title, filter} = todoList
-  const tasks=useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListID])
+  let tasks=useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListID])
 
   const dispatch=useDispatch()
 
@@ -60,6 +60,15 @@ export function Todolist1({todoList}: PropsType) {
     // props.editTodoTitle(props.todoListID, newTitle)
   }
 
+  // let tasksForTodolist = tasks[tl.todoListID];
+
+  if (filter === "active") {
+    tasks = tasks.filter(t => t.isDone === false);
+  }
+  if (filter === "completed") {
+    tasks = tasks.filter(t => t.isDone === true);
+  }
+
   return <div>
     <h3>
       {/*{props.title}*/}
@@ -74,7 +83,8 @@ export function Todolist1({todoList}: PropsType) {
       callBack={addTaskHandler}/>
 
     <ul>
-      {tasks.map(t => {
+      {
+        tasks.map(t => {
 
         return (
           <li key={t.id} className={t.isDone === true ? s.isDone : ''}>
